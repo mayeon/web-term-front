@@ -8,6 +8,8 @@
         NavLi,
     } from "flowbite-svelte";
     import "flowbite/dist/flowbite.css";
+    import Router from "svelte-spa-router";
+    import routes from "./routes";
 </script>
 
 <Navbar let:hidden let:toggle>
@@ -31,3 +33,6 @@
         <NavLi href="/">회원가입</NavLi>
     </NavUl>
 </Navbar>
+<main>
+    <Router {routes} />
+</main>
