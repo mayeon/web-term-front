@@ -24,6 +24,7 @@
         />
         <Button
             type="submit"
+            btnColor="red"
             on:click={() => {
                 console.log(id);
                 console.log(password);
