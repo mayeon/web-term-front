@@ -1,44 +1,57 @@
 <script>
     import { Card } from "flowbite-svelte";
-    import { Rating } from "flowbite-svelte";
-    import { Heart, ThumbUp, EmojiHappy } from "svelte-heros";
+    import { Rating, Button } from "flowbite-svelte";
+    import { Heart, ThumbUp, EmojiHappy, CurrencyDollar } from "svelte-heros";
 
     const datas = [
         {
+            id: 1,
             image: "https://img.cgv.co.kr/Movie/Thumbnail/Poster/000085/85689/85689_320.jpg",
             rate: 3.8,
             reservation: "78.2",
             name: "주라기",
         },
         {
+            id: 2,
             image: "https://img.cgv.co.kr/Movie/Thumbnail/Poster/000085/85689/85689_320.jpg",
             rate: 3.8,
             reservation: "78.2",
             name: "주라기",
         },
         {
+            id: 3,
             image: "https://img.cgv.co.kr/Movie/Thumbnail/Poster/000085/85689/85689_320.jpg",
             rate: 3.8,
             reservation: "78.2",
             name: "주라기",
         },
         {
+            id: 4,
             image: "https://img.cgv.co.kr/Movie/Thumbnail/Poster/000085/85689/85689_320.jpg",
             rate: 3.8,
             reservation: "78.2",
             name: "주라기",
         },
     ];
+
+    let hoverId = -1;
+    function cardInHandle() {}
+
+    function cardOutHandle() {}
 </script>
 
-<div>
+<div class="main-wrap">
     <h1>현재 상영작</h1>
     <div class="cards-wrap">
         {#each datas as data}
             <div
-                class="card=warp"
-                on:mouseenter={() => console.log("in")}
-                on:mouseleave={() => console.log("out")}
+                class="card-wrap"
+                on:mouseenter={() => {
+                    hoverId = data.id;
+                }}
+                on:mouseleave={() => {
+                    hoverId = -1;
+                }}
             >
                 <Card img={data.image} header={data.name}>
                     <div slot="paragraph">
@@ -54,8 +67,24 @@
                                 />
                             </span>
                         </Rating>
+                        <Rating total="5" rating={data.rate}>
+                            <span slot="ratingUp">
+                                <CurrencyDollar
+                                    class="text-red-300 dark:text-red-200"
+                                />
+                            </span>
+                            <span slot="ratingDown">
+                                <CurrencyDollar
+                                    class="text-gray-300 dark:text-gray-500"
+                                />
+                            </span>
+                        </Rating>
                     </div>
                 </Card>
+                <div class="buttons" class:on={hoverId == data.id}>
+                    <Button btnColor="light">상세보기</Button>
+                    <Button btnColor="red">예매하기</Button>
+                </div>
             </div>
         {/each}
     </div>
@@ -66,11 +95,27 @@
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        width: 90%;
+        width: 80%;
+        margin: auto;
     }
 
-    .cards-wrap {
-        max-width: 50%;
-        max-height: 50%;
+    .card-wrap {
+        max-width: 30%;
+        max-height: 30%;
+        width: 20%;
+    }
+
+    .card-wrap > .buttons {
+        display: none;
+        position: relative;
+        margin-top: -20em;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+
+    .card-wrap > .on {
+        display: flex;
+        flex-direction: column;
     }
 </style>
