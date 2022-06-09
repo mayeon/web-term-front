@@ -4,15 +4,10 @@
     const btnSignInColor = "red";
     const title = "로그인";
     const action = {};
-    const signupLink = "/#/signup";
-    const lostPasswordLink = "das";
+    const signup = {
+        name: "회원가입",
+        href: "#/signup",
+    };
 </script>
 
-<SignInCard
-    id="id1"
-    {btnSignInColor}
-    {title}
-    {action}
-    {signupLink}
-    {lostPasswordLink}
-/>
+<SignInCard {btnSignInColor} {title} {action} {signup} />

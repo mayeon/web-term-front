@@ -27,14 +27,5 @@
         <NavLi href="/">영화</NavLi>
         <NavLi href="/">극장</NavLi>
         <NavLi href="#/signin">로그인</NavLi>
-        <NavLi href="#/signup">회원가입</NavLi>
     </NavUl>
 </Navbar>
-
-<SignInModal
-    id="signin1"
-    titleSignIn="로그인"
-    lostPasswordLink="/"
-    signUpLink="/about"
-    formLink="/modals"
-/>
