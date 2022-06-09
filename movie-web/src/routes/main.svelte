@@ -1,5 +1,7 @@
 <script>
     import { Card } from "flowbite-svelte";
+    import { Rating } from "flowbite-svelte";
+    import { Heart, ThumbUp, EmojiHappy } from "svelte-heros";
 
     const datas = [
         {
@@ -38,7 +40,22 @@
                 on:mouseenter={() => console.log("in")}
                 on:mouseleave={() => console.log("out")}
             >
-                <Card img={data.image} header={data.name} />
+                <Card img={data.image} header={data.name}>
+                    <div slot="paragraph">
+                        <Rating total="5" rating={data.rate}>
+                            <span slot="ratingUp">
+                                <ThumbUp
+                                    class="text-yellow-300 dark:text-yellow-200"
+                                />
+                            </span>
+                            <span slot="ratingDown">
+                                <ThumbUp
+                                    class="text-gray-300 dark:text-gray-500"
+                                />
+                            </span>
+                        </Rating>
+                    </div>
+                </Card>
             </div>
         {/each}
     </div>
@@ -48,6 +65,8 @@
     .cards-wrap {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
+        width: 90%;
     }
 
     .cards-wrap {
