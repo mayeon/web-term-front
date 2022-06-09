@@ -1,4 +1,5 @@
 <script>
+    import { link } from "svelte-spa-router";
     import {
         Navbar,
         NavBrand,
@@ -6,6 +7,7 @@
         NavUl,
         NavLi,
     } from "flowbite-svelte";
+    import { SignInModal, ModalButton, Button } from "flowbite-svelte";
 </script>
 
 <Navbar let:hidden let:toggle>
@@ -13,7 +15,7 @@
         <img
             src="https://img.cgv.co.kr/R2014/images/common/logo/logoRed.png"
             class="mr-3 h-6 sm:h-9"
-            alt="Flowbite Logo"
+            alt="theater Logo"
         />
         <span
             class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
@@ -21,11 +23,18 @@
             영화관
         </span>
     </NavBrand>
-    <NavHamburger on:click={toggle} />
     <NavUl {hidden}>
         <NavLi href="/">영화</NavLi>
         <NavLi href="/">극장</NavLi>
-        <NavLi href="/">로그인</NavLi>
-        <NavLi href="/">회원가입</NavLi>
+        <NavLi href="#/signin">로그인</NavLi>
+        <NavLi href="#/signup">회원가입</NavLi>
     </NavUl>
 </Navbar>
+
+<SignInModal
+    id="signin1"
+    titleSignIn="로그인"
+    lostPasswordLink="/"
+    signUpLink="/about"
+    formLink="/modals"
+/>

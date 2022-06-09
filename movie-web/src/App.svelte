@@ -13,8 +13,9 @@
 
 <style>
     main {
-        padding: 1em;
-        max-width: 90%;
+        padding: 1em auto;
         margin: 1em auto;
+        display: flex;
+        justify-content: center;
     }
 </style>
