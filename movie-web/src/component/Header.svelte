@@ -24,7 +24,7 @@
         </span>
     </NavBrand>
     <NavUl {hidden}>
-        <NavLi href="/">영화</NavLi>
+        <NavLi href="#/movie">영화</NavLi>
         <NavLi href="/">극장</NavLi>
         <NavLi href="#/signin">로그인</NavLi>
     </NavUl>
