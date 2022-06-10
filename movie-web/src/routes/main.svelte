@@ -41,7 +41,14 @@
 </script>
 
 <div class="main-wrap">
-    <h1>현재 상영작</h1>
+    <div>
+        <h1
+            class="'mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white'"
+        >
+            현재 상영작
+        </h1>
+        <Button btnColor="red">전체 보기</Button>
+    </div>
     <div class="cards-wrap">
         {#each datas as data}
             <div
