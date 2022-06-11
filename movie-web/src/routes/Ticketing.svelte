@@ -1,7 +1,10 @@
 <script>
+    import { get } from "svelte/store";
+    import { movieScreenInfo } from "../function/store.js";
     import { axiosInstance } from "../function/source.js";
     import { onMount } from "svelte";  
     import List, { Item, Text } from '@smui/list';
+    import { push } from "svelte-spa-router";
 
     let movieList = [];
     let theater1screenList = [];
@@ -11,8 +14,6 @@
 
     let selectedMovie = "";
     let selectedScreen = "";
-
-    let date;
 
     onMount(async () => {
         await axiosInstance.get("/movie/list")
@@ -51,19 +52,21 @@
             })
     }
 
-    function setScreenItem(screen) {
-        
-    }
-
     function setScreen(screenId) {
         selectedScreen = screenId;
     }
 
     function selectSeats() {
         console.log("seats");
+        console.log(selectedMovie);
+        console.log(selectedScreen);
         let userLogin = sessionStorage.getItem("isLogin");
-        if(userLogin == null) {
+        if(userLogin != null) {
             alert("로그인이 필요합니다.");
+            push("/signin");
+        } else {
+            movieScreenInfo.set({selectedMovie, selectedScreen});
+            push("/selectSeat");
         }
     }
 </script>
