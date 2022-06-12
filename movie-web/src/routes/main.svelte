@@ -73,7 +73,12 @@
                             push(`/movie/${data.movieId}`);
                         }}>상세보기</Button
                     >
-                    <Button btnColor="red">예매하기</Button>
+                    <Button
+                        btnColor="red"
+                        on:click={() => {
+                            push(`/ticketing`);
+                        }}>예매하기</Button
+                    >
                 </div>
             </div>
             <br />

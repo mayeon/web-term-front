@@ -32,7 +32,7 @@
     </NavBrand>
     <NavUl {hidden}>
         <NavLi href="#/movie">영화</NavLi>
-        <NavLi href="/">극장</NavLi>
+        <NavLi href="#/schedule">극장</NavLi>
         {#if token == null}
             <NavLi href="#/signin">로그인</NavLi>
         {:else}

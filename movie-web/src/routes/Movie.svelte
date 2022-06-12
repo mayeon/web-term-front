@@ -115,7 +115,9 @@
             <h2 class="text-3xl dark:text-white">
                 러닝타임 : {movie.runningTime}분
             </h2>
-            <h2 class="text-3xl dark:text-white">개봉일 : {movie.openDate}</h2>
+            <h2 class="text-3xl dark:text-white">
+                개봉일 : {new Date(movie.openDate)}
+            </h2>
             <h2 class="text-3xl dark:text-white">감독 : {movie.director}</h2>
             <h2 class="text-3xl dark:text-white">스토리 : {movie.story}</h2>
             <h2 class="text-3xl dark:text-white">

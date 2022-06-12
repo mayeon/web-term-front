@@ -7,6 +7,7 @@ import Ticketing from "./routes/Ticketing.svelte"
 import SelectSeats from "./routes/SelectSeats.svelte"
 import User from "./routes/User.svelte"
 import Admin from "./routes/Admin.svelte"
+import Schedule from "./routes/Schedule.svelte"
 
 const routes = {
     "/": Main,
@@ -14,6 +15,7 @@ const routes = {
     "/signup": SignUp,
     "/movie": MovieChart,
     "/movie/:movieId": Movie,
+    "/schedule": Schedule,
     "/ticketing": Ticketing,
     "/ticketing/:movieId/:screenId": Ticketing,
     "/selectSeat": SelectSeats,
