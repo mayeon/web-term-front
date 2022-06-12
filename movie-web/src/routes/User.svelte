@@ -4,38 +4,37 @@
     const user = {
         id: "dsad3123",
     };
+
+    let datas = [];
 </script>
 
 <div>
     <h1 class="text-5xl dark:text-white">Id : {user.id}</h1>
     <br />
     <h1 class="text-3xl dark:text-white">예매내역</h1>
-    <Card header="Simple card with header and content">
-        <p
-            class="mb-3 font-normal text-gray-700 dark:text-gray-400"
-            slot="paragraph"
-        >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla
-            distinctio.
-        </p>
-    </Card>
-    <br />
-    <Card header="Simple card with header and content">
-        <p
-            class="mb-3 font-normal text-gray-700 dark:text-gray-400"
-            slot="paragraph"
-        >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla
-            distinctio.
-        </p>
-    </Card>
-    <Card header="Simple card with header and content">
-        <p
-            class="mb-3 font-normal text-gray-700 dark:text-gray-400"
-            slot="paragraph"
-        >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla
-            distinctio.
-        </p>
-    </Card>
+    {#each datas as data}
+        <Card header={data.movieName}>
+            <h1>
+                {data.screenName}
+            </h1>
+            <h1>
+                {data.screenFloor}
+            </h1>
+            <h1>
+                {data.startDate}
+            </h1>
+            <h1>
+                {data.movieName}
+            </h1>
+            <h1>
+                {data.movieName}
+            </h1>
+            {#each data.sheets as sheet}
+                <h1>
+                    {sheet.row}{sheet.col}
+                </h1>
+            {/each}
+        </Card>
+        <br />
+    {/each}
 </div>
