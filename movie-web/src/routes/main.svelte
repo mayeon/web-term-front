@@ -3,37 +3,21 @@
     import { Rating, Button } from "flowbite-svelte";
     import { Heart, ThumbUp, EmojiHappy, CurrencyDollar } from "svelte-heros";
     import { push } from "svelte-spa-router";
+    import { axiosInstance } from "../function/source.js";
+    import { onMount } from "svelte";
 
-    const datas = [
-        {
-            id: 1,
-            image: "https://img.cgv.co.kr/Movie/Thumbnail/Poster/000085/85689/85689_320.jpg",
-            rate: 3.8,
-            reservation: "78.2",
-            name: "주라기",
-        },
-        {
-            id: 2,
-            image: "https://img.cgv.co.kr/Movie/Thumbnail/Poster/000085/85689/85689_320.jpg",
-            rate: 3.8,
-            reservation: "78.2",
-            name: "주라기",
-        },
-        {
-            id: 3,
-            image: "https://img.cgv.co.kr/Movie/Thumbnail/Poster/000085/85689/85689_320.jpg",
-            rate: 3.8,
-            reservation: "78.2",
-            name: "주라기",
-        },
-        {
-            id: 4,
-            image: "https://img.cgv.co.kr/Movie/Thumbnail/Poster/000085/85689/85689_320.jpg",
-            rate: 3.8,
-            reservation: "78.2",
-            name: "주라기",
-        },
-    ];
+    let datas = [];
+
+    onMount(async () => {
+        await axiosInstance
+            .get("/movie/list/0")
+            .then((res) => {
+                datas = res.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    });
 
     let hoverId = -1;
 </script>
@@ -53,15 +37,15 @@
             <div
                 class="card-wrap"
                 on:mouseenter={() => {
-                    hoverId = data.id;
+                    hoverId = data.movieId;
                 }}
                 on:mouseleave={() => {
                     hoverId = -1;
                 }}
             >
-                <Card img={data.image} header={data.name}>
+                <Card img={data.posterLink} header={data.movieTitle}>
                     <div slot="paragraph">
-                        <Rating total="5" rating={data.rate}>
+                        <Rating total="10" rating={data.grade}>
                             <span slot="ratingUp">
                                 <ThumbUp
                                     class="text-yellow-300 dark:text-yellow-200"
@@ -73,25 +57,15 @@
                                 />
                             </span>
                         </Rating>
-                        <Rating total="5" rating={data.rate}>
-                            <span slot="ratingUp">
-                                <CurrencyDollar
-                                    class="text-red-300 dark:text-red-200"
-                                />
-                            </span>
-                            <span slot="ratingDown">
-                                <CurrencyDollar
-                                    class="text-gray-300 dark:text-gray-500"
-                                />
-                            </span>
-                        </Rating>
+                        예매율 : {data.reservationRate}
+                        스토리 : {data.story}
                     </div>
                 </Card>
-                <div class="buttons" class:on={hoverId == data.id}>
+                <div class="buttons" class:on={hoverId == data.movieId}>
                     <Button
                         btnColor="light"
                         on:click={() => {
-                            push(`/movie/${data.id}`);
+                            push(`/movie/${data.movieId}`);
                         }}>상세보기</Button
                     >
                     <Button btnColor="red">예매하기</Button>
@@ -99,6 +73,8 @@
             </div>
         {/each}
     </div>
+    <Button btnColor="red">이전</Button>
+    <Button btnColor="red">다음</Button>
 </div>
 
 <style>
