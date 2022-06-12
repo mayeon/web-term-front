@@ -20,7 +20,6 @@
                         "access_token",
                         JSON.stringify(res.data)
                     );
-                    console.log(res.data);
                     pop();
                 })
                 .catch((err) => {

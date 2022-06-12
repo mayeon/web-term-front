@@ -27,26 +27,28 @@
     <h1 class="text-3xl dark:text-white">예매내역</h1>
     {#each user.ticketData as data}
         <Card header={data.movieName}>
-            <h1>
-                {data.screenName}
-            </h1>
-            <h1>
-                {data.screenFloor}
-            </h1>
-            <h1>
-                {data.startDate}
-            </h1>
-            <h1>
-                {data.movieName}
-            </h1>
-            <h1>
-                {data.movieName}
-            </h1>
-            {#each data.sheets as sheet}
+            <div slot="paragraph">
                 <h1>
-                    {sheet.row}{sheet.col}
+                    {data.screenName}
                 </h1>
-            {/each}
+                <h1>
+                    {data.screenFloor}
+                </h1>
+                <h1>
+                    {data.startDate}
+                </h1>
+                <h1>
+                    {data.movieName}
+                </h1>
+                <h1>
+                    {data.movieName}
+                </h1>
+                {#each data.seats as seat}
+                    <h1>
+                        {seat.row}{seat.col}
+                    </h1>
+                {/each}
+            </div>
         </Card>
         <br />
     {/each}
