@@ -18,7 +18,7 @@ const routes = {
     "/schedule": Schedule,
     "/ticketing": Ticketing,
     "/ticketing/:movieId/:screenId": Ticketing,
-    "/selectSeat": SelectSeats,
+    "/selectSeat/:screenId": SelectSeats,
     "/user": User,
     "/admin": Admin,
 };

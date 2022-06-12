@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { axiosInstance } from "../function/source.js";
+    import { screenInfo } from "../function/store.js";
     import { Card } from "flowbite-svelte";
     import { push } from "svelte-spa-router";
 
@@ -22,7 +23,14 @@
                     <div
                         class="screen-list"
                         on:click={() => {
-                            push("");
+                            let userLogin =
+                                sessionStorage.getItem("access_token");
+                            if (userLogin == null) {
+                                alert("로그인이 필요합니다.");
+                                push("/signin");
+                            } else {
+                                push(`/selectSeat/${screen.screenId}`);
+                            }
                         }}
                     >
                         <span>{screen.theaterName}</span>
