@@ -1,6 +1,6 @@
 <script>
     import { get } from "svelte/store";
-    import { movieScreenInfo } from "../function/store.js";
+    import { screenInfo } from "../function/store.js";
     import { axiosInstance } from "../function/source.js";
     import { onMount } from "svelte";  
     import List, { Item, Text } from '@smui/list';
@@ -65,7 +65,7 @@
             alert("로그인이 필요합니다.");
             push("/signin");
         } else {
-            movieScreenInfo.set({selectedMovie, selectedScreen});
+            screenInfo.set({selectedScreen});
             push("/selectSeat");
         }
     }
