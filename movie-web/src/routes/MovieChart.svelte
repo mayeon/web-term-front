@@ -101,24 +101,14 @@
             >
                 <Card img={data.posterLink} header={data.movieTitle}>
                     <div slot="paragraph">
-                        <Rating total="10" rating={data.grade}>
-                            <span slot="ratingUp">
-                                <ThumbUp
-                                    class="text-yellow-300 dark:text-yellow-200"
-                                />
-                            </span>
-                            <span slot="ratingDown">
-                                <ThumbUp
-                                    class="text-gray-300 dark:text-gray-500"
-                                />
-                            </span>
-                        </Rating>
-                        예매율: {data.reservationRate}
-                        스토리 : {data.story}
+                        <h1>평점 : {data.grade}</h1>
+                        <h1>예매율: {data.reservationRate}</h1>
+                        <h1>스토리 : {data.story}</h1>
                     </div>
                     <Button btnColor="red">예매하기</Button>
                 </Card>
             </div>
+            <br />
         {/each}
     </div>
 </div>
