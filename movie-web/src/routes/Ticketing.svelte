@@ -16,6 +16,8 @@
 
     let selectedMovie = "";
     let selectedScreen = "";
+    let selectedMovieName = "";
+    let selectedScreenName = "";
 
     onMount(async () => {
         await axiosInstance.get("/movie/list")
@@ -28,7 +30,9 @@
             });
     });
 
-    async function getMoviesScreens(movieId) {
+    async function getMoviesScreens(movieId, movieTitle) {
+        selectedMovieName = movieTitle;
+        selectedScreenName = "";
         await axiosInstance.get("/screen/" + movieId)
             .then(res => {
                 selectedMovie = movieId;
@@ -54,7 +58,8 @@
             })
     }
 
-    function setScreen(screenId) {
+    function setScreen(screenId, screenStartTime) {
+        selectedScreenName = screenStartTime;
         selectedScreen = screenId;
     }
 
@@ -86,7 +91,7 @@
 
                 <List class="movie-list">
                     {#each movieList as movie}
-                        <Item on:SMUI:action={getMoviesScreens(movie.movieId)}>
+                        <Item on:SMUI:action={getMoviesScreens(movie.movieId, movie.movieTitle)}>
                             <a class="movie">
                                 <div class="movie-list-ageCut"> 
                                     <span class="movie-span">
@@ -116,7 +121,7 @@
                 <span>1관</span>
                 <List class="screen-list-theater1">
                     {#each theater1screenList as screen}
-                        <Item on:SMUI:action={setScreen(screen.screenId)}>
+                        <Item on:SMUI:action={setScreen(screen.screenId, screen.startTime)}>
                             <div class="screen">
                                 <div class="screen-start-time">
                                     <span>
@@ -144,7 +149,7 @@
                 <span>2관</span>
                 <List class="screen-list-theater2">
                     {#each theater2screenList as screen}
-                        <Item on:SMUI:action={setScreen(screen.screenId)}>
+                        <Item on:SMUI:action={setScreen(screen.screenId, screen.startTime)}>
                             <div class="screen">
                                 <div class="screen-start-time">
                                     <span>
@@ -174,6 +179,16 @@
     </div>
 
     <div class="ticketing-container-select-seat">
+        <div class="selected-movie">
+            선택된 영화:{selectedMovieName}
+        </div>
+        <div class="selected-screen">
+            {#if selectedScreenName == ""}
+                선택된 상영:
+            {:else}
+                선택된 상영:{new Date(selectedScreenName)}    
+            {/if}
+        </div>
         {#if (selectedMovie != "" && selectedScreen != "")}
             <!-- 둘 다 선택 -->
             <button on:click={selectSeats} class="w-btn w-btn-red btn" type="button">
@@ -264,6 +279,10 @@
         width: 50.3rem;
         max-height: 5rem;
         height: 100%;
+    }
+
+    .selected-movie, .selected-screen {
+        color:white;
     }
 
     .ticketing-container-select-seat .btn {
