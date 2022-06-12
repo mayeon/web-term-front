@@ -36,9 +36,6 @@
     ];
 
     let hoverId = -1;
-    function cardInHandle() {}
-
-    function cardOutHandle() {}
 </script>
 
 <div class="main-wrap">
@@ -48,7 +45,8 @@
         >
             현재 상영작
         </h1>
-        <Button btnColor="red">전체 보기</Button>
+        <Button btnColor="red" on:click={() => push("/movie")}>전체 보기</Button
+        >
     </div>
     <div class="cards-wrap">
         {#each datas as data}

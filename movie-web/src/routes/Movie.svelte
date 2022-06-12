@@ -58,16 +58,6 @@
     <br />
     <div>
         <br />
-        <Range
-            id="range-minmax"
-            label="Min-max range"
-            min="0"
-            max="5"
-            bind:value={minmaxValue}
-        />
-        <p>평점 : {minmaxValue}</p>
-        <Button btnColor="red">평점 등록</Button>
-        <br />
         <Card header="Simple card with header and content">
             <p
                 class="mb-3 font-normal text-gray-700 dark:text-gray-400"
@@ -89,6 +79,16 @@
 
         <br />
         <Textarea {...textareaprops} />
+        <br />
+        <Range
+            id="range-minmax"
+            label="평점"
+            min="0"
+            max="10"
+            bind:value={minmaxValue}
+        />
+        <p>평점 : {minmaxValue}</p>
+        <br />
         <Button btnColor="red">작성</Button>
     </div>
 </div>
