@@ -14,6 +14,8 @@ axiosInstance.interceptors.request.use(
         if (access_token) {
             config.headers.common["Authorization"] = `Bearer ${access_token.replace(/"/g, '')}`;
         }
+
+        // config.headers.common["Authorization"] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwdyI6InF3ZXIiLCJpZCI6ImxlZSIsImlzQWRtaW4iOmZhbHNlfQ.nHm7Nfogep7dz_-vvVZ-B2vmBhYzFd5hZWf4kTpdHe0';
         return config;
     },
 
