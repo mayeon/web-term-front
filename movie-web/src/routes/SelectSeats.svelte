@@ -3,13 +3,13 @@
     import { get } from "svelte/store";
     import { screenInfo } from "../function/store.js";
     import { axiosInstance } from "../function/source.js";
-    import { onMount } from "svelte";  
+    import { onMount } from "svelte";
     import { push } from "svelte-spa-router";
-    import LayoutGrid, { Cell } from '@smui/layout-grid';
+    import LayoutGrid, { Cell } from "@smui/layout-grid";
 
     let screenId;
     let reservedSeatInfo = []; // 이미 예약된 좌석
-    let theaterMaxSeat = [];  // 상영관 전체 좌석 수
+    let theaterMaxSeat = []; // 상영관 전체 좌석 수
 
     let maxNumOfPersion = [0, 1, 2, 3, 4];
     let numOfPerson = -1;
@@ -20,44 +20,43 @@
     $: totalPrice = price * selectedSeats;
 
     onMount(async () => {
-        screenId = get(screenInfo).selectedScreen
-        axiosInstance.get(`/screen/${screenId}/seat`)
-            .then(res => {
-                reservedSeatInfo = res.data;
-                console.log(reservedSeatInfo);
-            })
+        screenId = get(screenInfo).selectedScreen;
+        axiosInstance.get(`/screen/${screenId}/seat`).then((res) => {
+            reservedSeatInfo = res.data;
+            console.log(reservedSeatInfo);
+        });
 
-        axiosInstance.get(`/theater/${screenId}`)
-            .then(res => {
-                theaterMaxSeat[0] = alpabetToAscii(res.data.row);
-                theaterMaxSeat[1] = res.data.col + 1;
-                console.log(theaterMaxSeat);
-            })
+        axiosInstance.get(`/theater/${screenId}`).then((res) => {
+            theaterMaxSeat[0] = alpabetToAscii(res.data.row);
+            theaterMaxSeat[1] = res.data.col + 1;
+            console.log(theaterMaxSeat);
+        });
 
-        axiosInstance.get(`/screen/${screenId}/price`)
-            .then(res => {
-                price = res.data;
-                console.log(price);
-            })
-    })
+        axiosInstance.get(`/screen/${screenId}/price`).then((res) => {
+            price = res.data;
+            console.log(price);
+        });
+    });
 
     function changeNumOfPerson(num) {
-        if (num >= selectedSeats)
-            numOfPerson = num;
-        else 
-            alert("선택된 좌석이 더 많아 변경 불가능")
+        if (num >= selectedSeats) numOfPerson = num;
+        else alert("선택된 좌석이 더 많아 변경 불가능");
     }
 
     async function ticketing() {
         let data = {
-            "screenId": screenId,
-            "seatMatrices": selectSeatMatrices
-        }
+            screenId: screenId,
+            seatMatrices: selectSeatMatrices,
+        };
 
         console.log(data);
 
-        await axiosInstance.post("/ticket/reservation", data)
-            .catch(err => {
+        await axiosInstance
+            .post("/ticket/reservation", data)
+            .then((res) => {
+                push("/");
+            })
+            .catch((err) => {
                 console.log(err);
             });
     }
@@ -65,10 +64,8 @@
     function alpabetToAscii(alpabet) {
         let index = alpabet.charCodeAt(0);
 
-        if (65 <= index && index <= 90)
-            return index - 64;
-        else if (97 <= index && index <= 122)
-            return index - 96;
+        if (65 <= index && index <= 90) return index - 64;
+        else if (97 <= index && index <= 122) return index - 96;
         return 0;
     }
 
@@ -78,12 +75,11 @@
             selectedSeats++;
             selectSeatMatrices = [
                 ...selectSeatMatrices,
-                {"row":alpabetRow, "col":col}
-            ]
+                { row: alpabetRow, col: col },
+            ];
         } else {
             alert("인원 수 초과");
         }
-        
     }
 
     function isReserved(row, col) {
@@ -106,7 +102,11 @@
             <span>일반</span>
             {#each maxNumOfPersion as num}
                 <label class="numOfPerson">
-                    <input type="radio" name="numOfPerson" on:click={() => changeNumOfPerson(num)}>
+                    <input
+                        type="radio"
+                        name="numOfPerson"
+                        on:click={() => changeNumOfPerson(num)}
+                    />
                     <span>{num}</span>
                 </label>
             {/each}
@@ -121,7 +121,7 @@
 
         <div class="seat-container-select-seats">
             <!-- 행 -->
-            {#each new Array(theaterMaxSeat[0]) as a, i} 
+            {#each new Array(theaterMaxSeat[0]) as a, i}
                 <!-- 열 기존 크기에서 1 추가됨 (~행 자리) -->
                 <div class="seat-container-select-seats-row">
                     {#each new Array(theaterMaxSeat[1]) as b, j}
@@ -129,15 +129,16 @@
                             <!-- ~행 -->
                             {#if j == 0}
                                 <span>{String.fromCharCode(65 + i)}행</span>
+                            {:else if isReserved(i + 1, j)}
+                                <span>■</span>
                             {:else}
-                                {#if isReserved(i + 1, j)}
-                                    <span>■</span>
-                                {:else}
-                                    <label>
-                                        <input on:click={() => checkSeat(i + 1, j)} style="display:none">
-                                        <span id="seat">▢</span>
-                                    </label>
-                                {/if}
+                                <label>
+                                    <input
+                                        on:click={() => checkSeat(i + 1, j)}
+                                        style="display:none"
+                                    />
+                                    <span id="seat">▢</span>
+                                </label>
                             {/if}
                         </div>
                     {/each}
@@ -152,13 +153,20 @@
         </div>
         {#if numOfPerson == selectedSeats}
             <div class="seat-container-ticketing-btn">
-                <button on:click={() => ticketing()} class="w-btn w-btn-red btn" type="button">
+                <button
+                    on:click={() => ticketing()}
+                    class="w-btn w-btn-red btn"
+                    type="button"
+                >
                     예매
                 </button>
             </div>
         {:else}
             <div class="seat-container-ticketing-btn">
-                <button class="w-btn-outline w-btn-red-outline btn" type="button">
+                <button
+                    class="w-btn-outline w-btn-red-outline btn"
+                    type="button"
+                >
                     예매
                 </button>
             </div>
@@ -170,7 +178,7 @@
     .numOfPerson input[type="radio"] {
         display: none;
     }
- 
+
     .numOfPerson input[type="radio"] + span {
         display: inline-block;
         padding: 10px 10px;
@@ -181,7 +189,7 @@
         width: 3rem;
         height: 3rem;
     }
- 
+
     .numOfPerson input[type="radio"]:checked + span {
         background-color: #113a6b;
         color: #ffffff;
@@ -191,103 +199,101 @@
         display: inline-block;
     }
 
-
-
     .seat-container {
         height: 35rem;
         position: relative;
     }
 
-        .seat-container-title {
-            text-align: center;
-            vertical-align: middle;
-            color: white;
-            background-color: #242424; 
-            width: 50rem;
-            height: 2rem;
-            line-height:2rem;
-        }  
+    .seat-container-title {
+        text-align: center;
+        vertical-align: middle;
+        color: white;
+        background-color: #242424;
+        width: 50rem;
+        height: 2rem;
+        line-height: 2rem;
+    }
 
-        .seat-container-select-person {
-            position: relative;
-            background-color: #F2F0E5;
-            width: 50rem;
-            height: 8rem;
-            border: 2px solid #D4D1C9;
-        }
+    .seat-container-select-person {
+        position: relative;
+        background-color: #f2f0e5;
+        width: 50rem;
+        height: 8rem;
+        border: 2px solid #d4d1c9;
+    }
 
-            .seat-container-select-person-container {
-                position: absolute;
-                width: 50rem;
-                top:50%;
-                transform:translateY(-50%); 
-            }
+    .seat-container-select-person-container {
+        position: absolute;
+        width: 50rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
-        .seat-container-select-seat {
-            background-color: #F2F0E5;
-            width: 50rem;
-            height: 20rem;
-            border: 2px solid #D4D1C9;
-            border-top: none;
-        }
+    .seat-container-select-seat {
+        background-color: #f2f0e5;
+        width: 50rem;
+        height: 20rem;
+        border: 2px solid #d4d1c9;
+        border-top: none;
+    }
 
-            .seat-container-select-screen {
-                background-color: #E4E2D7;
-                text-align: center;
-                vertical-align: middle;
-                font-weight: bold;
-                position: relative;
-                margin: auto;
-                width: 40rem;
-                height: 2rem;
-                top: 1rem;
-                line-height:2rem;
-            }
+    .seat-container-select-screen {
+        background-color: #e4e2d7;
+        text-align: center;
+        vertical-align: middle;
+        font-weight: bold;
+        position: relative;
+        margin: auto;
+        width: 40rem;
+        height: 2rem;
+        top: 1rem;
+        line-height: 2rem;
+    }
 
-            .seat-container-select-seats {
-                text-align: center;
-                position: relative;
-                margin-top: 1rem;
-                top: 1rem;
-                width: 50rem;
-                height: 17rem;
-            }
+    .seat-container-select-seats {
+        text-align: center;
+        position: relative;
+        margin-top: 1rem;
+        top: 1rem;
+        width: 50rem;
+        height: 17rem;
+    }
 
-                .seat-container-select-seats-row {
-                    position: relative;
-                    margin: auto;
-                    width: 30rem;
-                    height: 2rem;
-                }
+    .seat-container-select-seats-row {
+        position: relative;
+        margin: auto;
+        width: 30rem;
+        height: 2rem;
+    }
 
-                .seat-container-select-seats-col {
-                    display:inline-block;
-                    width:2rem;
-                    height:2rem;
-                }
+    .seat-container-select-seats-col {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+    }
 
-        .seat-container-ticketing {
-            position: relative;
-            background-color: #242424; 
-            width: 50rem;
-            height: 5rem;
-        }
+    .seat-container-ticketing {
+        position: relative;
+        background-color: #242424;
+        width: 50rem;
+        height: 5rem;
+    }
 
-            .seat-container-ticketing-price {
-                position: absolute;
-                top:50%;
-                transform:translateY(-50%); 
-                left: 60%;
-                font-size: 1.5rem;
-                color: white;
-            }
+    .seat-container-ticketing-price {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 60%;
+        font-size: 1.5rem;
+        color: white;
+    }
 
-        .seat-container-ticketing-btn {
-            position: absolute;
-            top:50%;
-            transform:translateY(-50%); 
-            left: 82%
-        }
+    .seat-container-ticketing-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 82%;
+    }
 
     .w-btn {
         width: 132px;
