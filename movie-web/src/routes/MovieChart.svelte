@@ -2,6 +2,7 @@
     import { Card, Input } from "flowbite-svelte";
     import { Rating, Button, Search, Select } from "flowbite-svelte";
     import { Heart, ThumbUp, EmojiHappy, CurrencyDollar } from "svelte-heros";
+    import { push } from "svelte-spa-router";
     import { onMount } from "svelte";
     import { axiosInstance } from "../function/source.js";
 
@@ -106,8 +107,12 @@
                     <div slot="paragraph">
                         <h1>평점 : {data.grade}</h1>
                         <h1>예매율: {data.reservationRate}</h1>
-                        <h1>스토리 : {data.story}</h1>
-                        <Button btnColor="red">예매하기</Button>
+                        <Button
+                            btnColor="red"
+                            on:click={() => {
+                                push(`/ticketing`);
+                            }}>예매하기</Button
+                        >
                     </div>
                 </Card>
             </div>

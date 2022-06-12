@@ -61,9 +61,6 @@
                         <p>
                             예매율 : {data.reservationRate}
                         </p>
-                        <p>
-                            스토리 : {data.story}
-                        </p>
                     </div>
                 </Card>
                 <div class="buttons" class:on={hoverId == data.movieId}>
