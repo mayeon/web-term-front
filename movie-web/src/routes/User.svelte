@@ -1,18 +1,31 @@
 <script>
     import { Card, HorizontalCard, Textarea, Range } from "flowbite-svelte";
+    import { axiosInstance } from "../function/source.js";
+    import { onMount } from "svelte";
 
-    const user = {
-        id: "dsad3123",
+    let user = {
+        name: "",
+        ticketData: [],
     };
 
-    let datas = [];
+    onMount(async () => {
+        axiosInstance
+            .get("/user/info")
+            .then((res) => {
+                user = res.data;
+                console.log(user);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    });
 </script>
 
 <div>
-    <h1 class="text-5xl dark:text-white">Id : {user.id}</h1>
+    <h1 class="text-5xl dark:text-white">이름 : {user.name}</h1>
     <br />
     <h1 class="text-3xl dark:text-white">예매내역</h1>
-    {#each datas as data}
+    {#each user.ticketData as data}
         <Card header={data.movieName}>
             <h1>
                 {data.screenName}

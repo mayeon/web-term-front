@@ -8,6 +8,13 @@
         NavLi,
     } from "flowbite-svelte";
     import { SignInModal, ModalButton, Button } from "flowbite-svelte";
+    import { onMount } from "svelte";
+
+    let token = null;
+
+    onMount(() => {
+        token = sessionStorage.getItem("access_token");
+    });
 </script>
 
 <Navbar let:hidden let:toggle>
@@ -26,6 +33,10 @@
     <NavUl {hidden}>
         <NavLi href="#/movie">영화</NavLi>
         <NavLi href="/">극장</NavLi>
-        <NavLi href="#/signin">로그인</NavLi>
+        {#if token == null}
+            <NavLi href="#/signin">로그인</NavLi>
+        {:else}
+            <NavLi href="#/user">내정보</NavLi>
+        {/if}
     </NavUl>
 </Navbar>
