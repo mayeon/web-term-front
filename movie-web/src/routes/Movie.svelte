@@ -73,15 +73,8 @@
         },
     ];
 
-    let textareaprops = {
-        id: "message",
-        name: "message",
-        label: "Your message",
-        rows: 4,
-        placeholder: "Leave a comment...",
-    };
-
-    let minmaxValue = 0;
+    let score = 0;
+    let review = "";
 
     onMount(() => {
         axiosInstance
@@ -171,18 +164,52 @@
         {/each}
 
         <br />
-        <Textarea {...textareaprops} />
+        <label
+            for="message"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+            >Your message</label
+        >
+        <textarea
+            id="message"
+            rows="4"
+            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Your message..."
+            bind:value={review}
+        />
         <br />
         <Range
             id="range-minmax"
             label="평점"
             min="0"
             max="10"
-            bind:value={minmaxValue}
+            bind:value={score}
         />
-        <p>평점 : {minmaxValue}</p>
+        <p>평점 : {score}</p>
         <br />
-        <Button btnColor="red">작성</Button>
+        <Button
+            btnColor="red"
+            on:click={() => {
+                axiosInstance
+                    .post("/review/add", {
+                        movieId: params.movieId,
+                        comment: review,
+                        rate: score,
+                    })
+                    .then((res) => {
+                        axiosInstance
+                            .get(`/movie/detail/${params.movieId}/review`)
+                            .then((res) => {
+                                reviews = res.data;
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }}>작성</Button
+        >
     </div>
 </div>
 
