@@ -15,7 +15,5 @@
     main {
         padding: 1em auto;
         margin: 1em auto;
-        display: flex;
-        justify-content: center;
     }
 </style>
