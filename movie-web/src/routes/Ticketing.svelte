@@ -63,7 +63,7 @@
         console.log(selectedMovie);
         console.log(selectedScreen);
         //TODO 로그인 정보
-        let userLogin = sessionStorage.getItem("isLogin");
+        let userLogin = sessionStorage.getItem("access_token");
         if(userLogin != null) {
             alert("로그인이 필요합니다.");
             push("/signin");
