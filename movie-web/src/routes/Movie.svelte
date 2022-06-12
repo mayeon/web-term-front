@@ -142,12 +142,22 @@
                         btnColor="red"
                         rounded="true"
                         on:click={() => {
-                            console.log("!!!!");
                             axiosInstance
                                 .post(`/review/like`, {
                                     reviewId: `${review.reviewId}`,
                                 })
-                                .then((res) => {})
+                                .then((res) => {
+                                    axiosInstance
+                                        .get(
+                                            `/movie/detail/${params.movieId}/review`
+                                        )
+                                        .then((res) => {
+                                            reviews = res.data;
+                                        })
+                                        .catch((err) => {
+                                            console.log(err);
+                                        });
+                                })
                                 .catch((err) => {
                                     console.log(err);
                                 });
