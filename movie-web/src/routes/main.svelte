@@ -7,10 +7,24 @@
     import { onMount } from "svelte";
 
     let datas = [];
+    let hoverId = -1;
+    let page = 0;
+    $: leftDisable = page == 0;
+
+    function dataLoad() {
+        axiosInstance
+            .get(`/movie/list/${page}`)
+            .then((res) => {
+                datas = res.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     onMount(async () => {
-        await axiosInstance
-            .get("/movie/list/0")
+        axiosInstance
+            .get(`/movie/list/${page}`)
             .then((res) => {
                 datas = res.data;
             })
@@ -18,8 +32,6 @@
                 console.log(err);
             });
     });
-
-    let hoverId = -1;
 </script>
 
 <div class="main-wrap">
@@ -45,20 +57,13 @@
             >
                 <Card img={data.posterLink} header={data.movieTitle}>
                     <div slot="paragraph">
-                        <Rating total="10" rating={data.grade}>
-                            <span slot="ratingUp">
-                                <ThumbUp
-                                    class="text-yellow-300 dark:text-yellow-200"
-                                />
-                            </span>
-                            <span slot="ratingDown">
-                                <ThumbUp
-                                    class="text-gray-300 dark:text-gray-500"
-                                />
-                            </span>
-                        </Rating>
-                        예매율 : {data.reservationRate}
-                        스토리 : {data.story}
+                        <p>평점: {data.grade}</p>
+                        <p>
+                            예매율 : {data.reservationRate}
+                        </p>
+                        <p>
+                            스토리 : {data.story}
+                        </p>
                     </div>
                 </Card>
                 <div class="buttons" class:on={hoverId == data.movieId}>
@@ -71,25 +76,38 @@
                     <Button btnColor="red">예매하기</Button>
                 </div>
             </div>
+            <br />
         {/each}
     </div>
-    <Button btnColor="red">이전</Button>
-    <Button btnColor="red">다음</Button>
+    <div>
+        <Button
+            btnColor="red"
+            on:click={() => {
+                page -= 1;
+                dataLoad();
+            }}>이전</Button
+        >
+        <Button
+            btnColor="red"
+            on:click={() => {
+                page += 1;
+                dataLoad();
+            }}>다음</Button
+        >
+    </div>
 </div>
 
 <style>
     .cards-wrap {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        width: 80%;
         margin: auto;
     }
 
     .card-wrap {
         max-width: 30%;
         max-height: 30%;
-        width: 20%;
+        width: 15%;
     }
 
     .card-wrap > .buttons {
