@@ -13,10 +13,10 @@ const routes = {
     "/signup": SignUp,
     "/movie": MovieChart,
     "/movie/:movieId": Movie,
-    "/ticketing":Ticketing,
-    "/ticketing/:movieId/:screenId":Ticketing,
-    "/selectSeat":SelectSeats,
-    "/user/:userId": User,
+    "/ticketing": Ticketing,
+    "/ticketing/:movieId/:screenId": Ticketing,
+    "/selectSeat": SelectSeats,
+    "/user": User,
 };
 
 export default routes
