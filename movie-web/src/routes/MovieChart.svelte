@@ -32,7 +32,7 @@
                 });
         } else {
             axiosInstance
-                .get(`/list/order/${type}`)
+                .get(`movie/list/order/${type}`)
                 .then((res) => {
                     datas = res.data;
                 })
