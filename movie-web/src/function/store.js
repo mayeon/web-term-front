@@ -1,3 +1,3 @@
 import { writable } from "svelte/store"
 
-export const movieScreenInfo = writable(null);
+export const screenInfo = writable(null);
