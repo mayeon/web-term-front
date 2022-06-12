@@ -59,6 +59,8 @@
             .catch((err) => {
                 console.log(err);
             });
+
+        push("/");
     }
 
     function alpabetToAscii(alpabet) {
