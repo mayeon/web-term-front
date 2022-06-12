@@ -13,8 +13,9 @@ const routes = {
     "/signup": SignUp,
     "/movie": MovieChart,
     "/movie/:movieId": Movie,
-    "/ticketing": Ticketing,
-    "/selectSeat": SelectSeats,
+    "/ticketing":Ticketing,
+    "/ticketing/:movieId/:screenId":Ticketing,
+    "/selectSeat":SelectSeats,
     "/user/:userId": User,
 };
 
