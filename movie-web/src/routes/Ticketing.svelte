@@ -15,8 +15,8 @@
 
     let rawScreenList = [];
 
-    let selectedMovie = "";
-    let selectedScreen = "";
+    let selectedMovie = params.movieId;
+    let selectedScreen = params.screenId;
     let selectedMovieName = "";
     let selectedScreenName = "";
 

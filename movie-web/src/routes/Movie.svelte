@@ -170,6 +170,36 @@
                             class="text-red-500 dark:text-Gray-100"
                         />
                     </Button>
+                    <Button btnColor="red" rounded="true" on:click={() => {}}
+                        >수정</Button
+                    >
+                    <Button
+                        btnColor="red"
+                        rounded="true"
+                        on:click={() => {
+                            console.log("!");
+                            axiosInstance
+                                .post(`/review/delete`, {
+                                    reviewId: `${review.reviewId}`,
+                                })
+                                .then((res) => {
+                                    console.log("delete");
+                                    axiosInstance
+                                        .get(
+                                            `/movie/detail/${params.movieId}/review`
+                                        )
+                                        .then((res) => {
+                                            reviews = res.data;
+                                        })
+                                        .catch((err) => {
+                                            console.log(err);
+                                        });
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                });
+                        }}>삭제</Button
+                    >
                 </div>
             </Card>
             <br />
