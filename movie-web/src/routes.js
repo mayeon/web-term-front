@@ -4,7 +4,8 @@ import SignUp from "./routes/SignUp.svelte"
 import MovieChart from "./routes/MovieChart.svelte"
 import Movie from "./routes/Movie.svelte"
 import Ticketing from "./routes/Ticketing.svelte"
-import SelectSeats from "./routes/SelectSeats.svelte"
+
+import User from "./routes/User.svelte"
 
 const routes = {
     "/": Main,
@@ -14,6 +15,7 @@ const routes = {
     "/movie/:movieId": Movie,
     "/ticketing":Ticketing,
     "/selectSeat":SelectSeats,
+    "/user/:userId": User,
 };
 
 export default routes

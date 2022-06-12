@@ -48,12 +48,20 @@
     >
         무비차트
     </h1>
-    <Search />
-    <Select {...selectprops} bind:value={selected}>
-        <option value="normal">기본</option>
-        <option value="select">예매율순</option>
-        <option value="rate">평점순</option>
-    </Select>
+    <br />
+    <div class="right">
+        <div class="select">
+            <Select {...selectprops} bind:value={selected}>
+                <option value="normal">기본</option>
+                <option value="select">예매율순</option>
+                <option value="rate">평점순</option>
+            </Select>
+        </div>
+        <div class="search">
+            <Search />
+        </div>
+    </div>
+    <br />
     <div class="cards-wrap">
         {#each datas as data}
             <div
@@ -108,23 +116,23 @@
         margin: auto;
     }
 
+    .right {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .select {
+        width: 10%;
+    }
+
+    .search {
+        width: 50%;
+    }
+
     .card-wrap {
         max-width: 30%;
         max-height: 30%;
         width: 20%;
-    }
-
-    .card-wrap > .buttons {
-        display: none;
-        position: relative;
-        margin-top: -20em;
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-    }
-
-    .card-wrap > .on {
-        display: flex;
-        flex-direction: column;
     }
 </style>

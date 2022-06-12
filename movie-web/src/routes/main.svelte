@@ -2,6 +2,7 @@
     import { Card } from "flowbite-svelte";
     import { Rating, Button } from "flowbite-svelte";
     import { Heart, ThumbUp, EmojiHappy, CurrencyDollar } from "svelte-heros";
+    import { push } from "svelte-spa-router";
 
     const datas = [
         {
@@ -35,9 +36,6 @@
     ];
 
     let hoverId = -1;
-    function cardInHandle() {}
-
-    function cardOutHandle() {}
 </script>
 
 <div class="main-wrap">
@@ -47,7 +45,8 @@
         >
             현재 상영작
         </h1>
-        <Button btnColor="red">전체 보기</Button>
+        <Button btnColor="red" on:click={() => push("/movie")}>전체 보기</Button
+        >
     </div>
     <div class="cards-wrap">
         {#each datas as data}
@@ -89,7 +88,12 @@
                     </div>
                 </Card>
                 <div class="buttons" class:on={hoverId == data.id}>
-                    <Button btnColor="light">상세보기</Button>
+                    <Button
+                        btnColor="light"
+                        on:click={() => {
+                            push(`/movie/${data.id}`);
+                        }}>상세보기</Button
+                    >
                     <Button btnColor="red">예매하기</Button>
                 </div>
             </div>
