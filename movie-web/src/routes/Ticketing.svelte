@@ -6,6 +6,8 @@
     import List, { Item, Text } from '@smui/list';
     import { push } from "svelte-spa-router";
 
+    export let selectInfo = {}
+
     let movieList = [];
     let theater1screenList = [];
     let theater2screenList = [];
@@ -60,6 +62,7 @@
         console.log("seats");
         console.log(selectedMovie);
         console.log(selectedScreen);
+        //TODO 로그인 정보
         let userLogin = sessionStorage.getItem("isLogin");
         if(userLogin != null) {
             alert("로그인이 필요합니다.");

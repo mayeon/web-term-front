@@ -17,11 +17,10 @@
     let selectSeatMatrices = []; // 내가 선택한 좌석 목록
 
     let price = 0;
-    $: totalPrice = numOfPerson * selectedSeats;
+    $: totalPrice = price * selectedSeats;
 
     onMount(async () => {
-        // screenId = get(screenInfo).selectedScreen
-        screenId=1;
+        screenId = get(screenInfo).selectedScreen
         axiosInstance.get(`/screen/${screenId}/seat`)
             .then(res => {
                 reservedSeatInfo = res.data;
@@ -30,7 +29,7 @@
 
         axiosInstance.get(`/theater/${screenId}`)
             .then(res => {
-                theaterMaxSeat[0] = alpabetToAscii(res.data.row) + 1;
+                theaterMaxSeat[0] = alpabetToAscii(res.data.row);
                 theaterMaxSeat[1] = res.data.col + 1;
                 console.log(theaterMaxSeat);
             })
@@ -43,15 +42,19 @@
     })
 
     function changeNumOfPerson(num) {
-        numOfPerson = num;
+        if (num >= selectedSeats)
+            numOfPerson = num;
+        else 
+            alert("선택된 좌석이 더 많아 변경 불가능")
     }
 
     async function ticketing() {
-
         let data = {
             "screenId": screenId,
             "seatMatrices": selectSeatMatrices
         }
+
+        console.log(data);
 
         await axiosInstance.post("/ticket/reservation", data)
             .catch(err => {
@@ -67,6 +70,29 @@
         else if (97 <= index && index <= 122)
             return index - 96;
         return 0;
+    }
+
+    function checkSeat(row, col, obj) {
+        if (numOfPerson > selectedSeats) {
+            let alpabetRow = String.fromCharCode(row + 64);
+            selectedSeats++;
+            selectSeatMatrices = [
+                ...selectSeatMatrices,
+                {"row":alpabetRow, "col":col}
+            ]
+        } else {
+            alert("인원 수 초과");
+        }
+        
+    }
+
+    function isReserved(row, col) {
+        for (let seat of reservedSeatInfo) {
+            if (String.fromCharCode(row + 64) == seat.row && seat.col == col) {
+                return true;
+            }
+        }
+        return false;
     }
 </script>
 
@@ -94,33 +120,29 @@
         </div>
 
         <div class="seat-container-select-seats">
-            <LayoutGrid>
-            {#each new Array(theaterMaxSeat[0]) as a, i}
-                <div class="seat-container-select-seats-row"> 
-                {#each new Array(theaterMaxSeat[1]) as b, j}
-                    <div class="seat-container-select-seats-col"> 
-                        <Cell span={2}>
-                            {#if i == 0 && j == 0}
-                                좌석
+            <!-- 행 -->
+            {#each new Array(theaterMaxSeat[0]) as a, i} 
+                <!-- 열 기존 크기에서 1 추가됨 (~행 자리) -->
+                <div class="seat-container-select-seats-row">
+                    {#each new Array(theaterMaxSeat[1]) as b, j}
+                        <div class="seat-container-select-seats-col">
+                            <!-- ~행 -->
+                            {#if j == 0}
+                                <span>{String.fromCharCode(65 + i)}행</span>
+                            {:else}
+                                {#if isReserved(i + 1, j)}
+                                    <span>■</span>
+                                {:else}
+                                    <label>
+                                        <input on:click={() => checkSeat(i + 1, j)} style="display:none">
+                                        <span id="seat">▢</span>
+                                    </label>
+                                {/if}
                             {/if}
-
-                            {#if i == 0 && j > 0}
-                                {j}열
-                            {/if}
-
-                            {#if i > 0 && j == 0}
-                                {String.fromCharCode(64 + i)}행
-                            {/if}
-
-                            {#if i > 0 && j > 0}
-                                ㅁ 
-                            {/if}
-                        </Cell>
-                    </div>
-                {/each}
+                        </div>
+                    {/each}
                 </div>
             {/each}
-            </LayoutGrid>
         </div>
     </div>
 
@@ -232,11 +254,16 @@
             }
 
                 .seat-container-select-seats-row {
-
+                    position: relative;
+                    margin: auto;
+                    width: 30rem;
+                    height: 2rem;
                 }
 
                 .seat-container-select-seats-col {
                     display:inline-block;
+                    width:2rem;
+                    height:2rem;
                 }
 
         .seat-container-ticketing {
