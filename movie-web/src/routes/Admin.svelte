@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { axiosInstance } from "../function/source.js";
+    import { push } from "svelte-spa-router";
 
     let movieList = [];
 
@@ -12,37 +13,8 @@
             })
     })
 
-    async function updatePrice(screenId) {
-        let inputPolicy = prompt("할인 방식을 입력하세요. ('정률', '정액')");
-        let inputRate;
-
-        if (inputPolicy == '정률') {
-            inputPolicy = "RATED_AMOUNT";
-            inputRate = prompt("할인률을 입력하세요. (0~100)");
-            if (inputRate > 100 && inputRate < 0) {
-                alert("0~100%를 넘길 수 없습니다.");
-                return;
-            }
-        } else if (inputPolicy == '정액'){
-            inputPolicy = "FIXED_AMOUNT";
-            inputRate = prompt("할인액을 입력하세요. (0~5000)");
-            if (inputRate > 5000 && inputRate < 0) {
-                alert("0~5000원을 넘길 수 없습니다.");
-                return;
-            }
-        } else {
-            alert("잘못 입력하셨습니다.");
-            return;
-        }
-
-        alert("적용되었습니다.");
-
-        const data = {
-            "screenId": screenId,
-            "discountPolicy": inputPolicy,
-            "discountRate": inputRate
-        }
-        axiosInstance.post("/screen/modify/price", data);
+    function updatePrice(screenId) {
+        push("/modify/" + screenId);
     }
 </script>
 

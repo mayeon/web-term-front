@@ -7,6 +7,7 @@ import Ticketing from "./routes/Ticketing.svelte"
 import SelectSeats from "./routes/SelectSeats.svelte"
 import User from "./routes/User.svelte"
 import Admin from "./routes/Admin.svelte"
+import ModifyPrice from "./routes/ModifyPrice.svelte"
 import Schedule from "./routes/Schedule.svelte"
 
 const routes = {
@@ -21,6 +22,7 @@ const routes = {
     "/selectSeat/:screenId": SelectSeats,
     "/user": User,
     "/admin": Admin,
+    "/modify/:screenId": ModifyPrice,
 };
 
 export default routes
