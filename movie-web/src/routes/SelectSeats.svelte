@@ -19,8 +19,9 @@
     let price = 0;
     $: totalPrice = price * selectedSeats;
 
+    export let params = {};
     onMount(async () => {
-        screenId = get(screenInfo).selectedScreen;
+        screenId = params.screenId;
         axiosInstance.get(`/screen/${screenId}/seat`).then((res) => {
             reservedSeatInfo = res.data;
             console.log(reservedSeatInfo);

@@ -61,9 +61,6 @@
                         <p>
                             예매율 : {data.reservationRate}
                         </p>
-                        <p>
-                            스토리 : {data.story}
-                        </p>
                     </div>
                 </Card>
                 <div class="buttons" class:on={hoverId == data.movieId}>
@@ -73,7 +70,12 @@
                             push(`/movie/${data.movieId}`);
                         }}>상세보기</Button
                     >
-                    <Button btnColor="red">예매하기</Button>
+                    <Button
+                        btnColor="red"
+                        on:click={() => {
+                            push(`/ticketing`);
+                        }}>예매하기</Button
+                    >
                 </div>
             </div>
             <br />
