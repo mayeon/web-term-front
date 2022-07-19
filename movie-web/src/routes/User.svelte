@@ -35,7 +35,7 @@
                     {data.screenFloor}
                 </h1>
                 <h1>
-                    {data.startDate}
+                    {new Date(data.startDate)}
                 </h1>
                 <h1>
                     {data.movieName}
